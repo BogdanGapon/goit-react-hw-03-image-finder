@@ -13,15 +13,15 @@ export class ImageGallery extends Component {
     LoaderVisible: false,
     largePhoto: null,
     showModal: false,
-    loadWas: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
     const URL = 'https://pixabay.com/api/?';
     const KEY = '33797710-c43b349e33488e785e99b8ec8';
+
     if (
-      (prevProps.query !== this.props.query && !this.state.loadWas) ||
-      (prevState.page !== this.state.page && !this.state.loadWas)
+      prevProps.query !== this.props.query ||
+      prevState.page !== this.state.page
     ) {
       this.setState({
         LoaderVisible: true,
@@ -38,7 +38,6 @@ export class ImageGallery extends Component {
             return {
               data: [...prevState.data, ...res.data.hits],
               buttonStatus: true,
-              loadWas: true,
             };
           });
         })
