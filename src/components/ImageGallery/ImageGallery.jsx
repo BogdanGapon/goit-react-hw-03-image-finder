@@ -19,10 +19,32 @@ export class ImageGallery extends Component {
     const URL = 'https://pixabay.com/api/?';
     const KEY = '33797710-c43b349e33488e785e99b8ec8';
 
-    if (
-      prevProps.query !== this.props.query ||
-      prevState.page !== this.state.page
-    ) {
+    if (prevProps.query !== this.props.query) {
+      this.setState({
+        LoaderVisible: true,
+      });
+      axios
+        .get(
+          `${URL}key=${KEY}&q=${this.props.query}&page=${this.state.page}&image_type=photo&orientation=horizontal&per_page=12`
+        )
+        .then(res => {
+          if (res.data.hits.length === 0) {
+            return;
+          }
+          this.setState(prevState => {
+            return {
+              data: [...res.data.hits],
+              buttonStatus: true,
+            };
+          });
+        })
+        .finally(() =>
+          this.setState({
+            LoaderVisible: false,
+          })
+        );
+    }
+    if (prevState.page !== this.state.page) {
       this.setState({
         LoaderVisible: true,
       });
@@ -37,7 +59,6 @@ export class ImageGallery extends Component {
           this.setState(prevState => {
             return {
               data: [...prevState.data, ...res.data.hits],
-              buttonStatus: true,
             };
           });
         })
@@ -64,6 +85,7 @@ export class ImageGallery extends Component {
     this.setState(prevState => {
       return {
         page: prevState.page + 1,
+        data: [...prevState.data],
       };
     });
   }
