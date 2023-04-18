@@ -22,11 +22,12 @@ export class Searchbar extends Component {
     evt.preventDefault();
     const { getDataFromFetch } = this.props;
     const { query } = this.state;
-    if (this.state.query.trim() === '') {
+    if (query.trim() === '') {
       return;
     }
     getDataFromFetch(query);
     this.resetState();
+    this.props.resetPageNumber();
   };
 
   resetState = () => {

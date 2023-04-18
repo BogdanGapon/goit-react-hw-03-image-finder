@@ -4,8 +4,9 @@ import { Overlay, ModalWindow } from './Modal.styled';
 const modalRoot = document.getElementById('modal-root');
 export class Modal extends Component {
   handleCloseModalByEscape = evt => {
+    const { onCloseModal } = this.props;
     if (evt.code === 'Escape') {
-      this.props.onCloseModal();
+      onCloseModal();
     }
   };
   componentDidMount() {
@@ -16,8 +17,9 @@ export class Modal extends Component {
     window.removeEventListener('keydown', this.handleCloseModalByEscape);
   }
   handleCloseModalClick = evt => {
+    const { onCloseModal } = this.props;
     if (evt.currentTarget === evt.target) {
-      this.props.onCloseModal();
+      onCloseModal();
     }
   };
 

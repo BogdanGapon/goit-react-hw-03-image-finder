@@ -8,7 +8,7 @@ import { Button } from 'components/Button/Button';
 export class ImageGallery extends Component {
   state = {
     data: [],
-    page: 1,
+    // page: 1,
     buttonStatus: false,
     LoaderVisible: false,
     largePhoto: null,
@@ -20,12 +20,14 @@ export class ImageGallery extends Component {
     const KEY = '33797710-c43b349e33488e785e99b8ec8';
 
     if (prevProps.query !== this.props.query) {
-      this.setState({
-        LoaderVisible: true,
+      this.setState(prevState => {
+        return {
+          LoaderVisible: true,
+        };
       });
       axios
         .get(
-          `${URL}key=${KEY}&q=${this.props.query}&page=${this.state.page}&image_type=photo&orientation=horizontal&per_page=12`
+          `${URL}key=${KEY}&q=${this.props.query}&page=${this.props.page}&image_type=photo&orientation=horizontal&per_page=12`
         )
         .then(res => {
           if (res.data.hits.length === 0) {
@@ -44,13 +46,16 @@ export class ImageGallery extends Component {
           })
         );
     }
-    if (prevState.page !== this.state.page) {
+    if (
+      prevProps.page !== this.props.page &&
+      prevProps.query === this.props.query
+    ) {
       this.setState({
         LoaderVisible: true,
       });
       axios
         .get(
-          `${URL}key=${KEY}&q=${this.props.query}&page=${this.state.page}&image_type=photo&orientation=horizontal&per_page=12`
+          `${URL}key=${KEY}&q=${this.props.query}&page=${this.props.page}&image_type=photo&orientation=horizontal&per_page=12`
         )
         .then(res => {
           if (res.data.hits.length === 0) {
@@ -82,13 +87,14 @@ export class ImageGallery extends Component {
   };
 
   increaseNumberOfPage() {
+    this.props.increasePageNumber();
     this.setState(prevState => {
       return {
-        page: prevState.page + 1,
         data: [...prevState.data],
       };
     });
   }
+
   render() {
     const { data } = this.state;
     return (
@@ -98,7 +104,7 @@ export class ImageGallery extends Component {
         </ImageList>
         {this.state.showModal && (
           <Modal onCloseModal={this.closeModal}>
-            <img src={this.state.largePhoto} alt="" />
+            <img src={this.state.largePhoto} alt={this.props.query} />
           </Modal>
         )}
         <ThreeDots
@@ -110,7 +116,6 @@ export class ImageGallery extends Component {
           wrapperStyle={{
             margin: `0 auto`,
           }}
-          wrapperClassName=""
           visible={this.state.LoaderVisible}
         />
         <Button
