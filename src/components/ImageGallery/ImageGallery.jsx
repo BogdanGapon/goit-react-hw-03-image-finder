@@ -8,12 +8,23 @@ import { Button } from 'components/Button/Button';
 export class ImageGallery extends Component {
   state = {
     data: [],
-    // page: 1,
     buttonStatus: false,
     LoaderVisible: false,
     largePhoto: null,
     showModal: false,
   };
+
+  componentDidMount() {
+    const storageData = localStorage.getItem('data');
+    const obj = JSON.parse(storageData);
+
+    if (obj) {
+      this.setState({
+        data: obj,
+        buttonStatus: true,
+      });
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const URL = 'https://pixabay.com/api/?';
@@ -39,6 +50,7 @@ export class ImageGallery extends Component {
               buttonStatus: true,
             };
           });
+          localStorage.setItem('data', JSON.stringify(res.data.hits));
         })
         .finally(() =>
           this.setState({
@@ -66,6 +78,7 @@ export class ImageGallery extends Component {
               data: [...prevState.data, ...res.data.hits],
             };
           });
+          localStorage.setItem('data', JSON.stringify(this.state.data));
         })
         .finally(() =>
           this.setState({
@@ -74,6 +87,7 @@ export class ImageGallery extends Component {
         );
     }
   }
+
   closeModal = evt => {
     this.setState({
       showModal: false,
