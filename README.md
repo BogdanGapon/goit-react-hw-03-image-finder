@@ -22,9 +22,9 @@ prevProps.page !== this.props.page && prevProps.query === this.props.query;
 
 `import { createPortal } from 'react-dom';`
 
-1. Получаем наш див через querySelector or getElementById (да так можно, это
+3. Получаем наш див через querySelector or getElementById (да так можно, это
    такой паттерн) `const modalRoot = document.getElementById('modal-root');`
-2. В возрате инициализиурем вызов метода createPortal в который первым
+4. В возрате инициализиурем вызов метода createPortal в который первым
    аргументом передаем модалку, а вторым где она будет рендерится то есть наш
    modalRoot.
 
