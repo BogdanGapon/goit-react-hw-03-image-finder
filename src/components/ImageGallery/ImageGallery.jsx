@@ -5,7 +5,14 @@ import { ImageList } from './ImageGallery.styled';
 import { Modal } from 'components/Modal/Modal';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Button } from 'components/Button/Button';
+import { URL, KEY } from 'utilities/constans';
+import PropTypes from 'prop-types';
 export class ImageGallery extends Component {
+  static propTypes = {
+    query: PropTypes.string,
+    page: PropTypes.number,
+    increasePageNumber: PropTypes.func,
+  };
   state = {
     data: [],
     buttonStatus: false,
@@ -14,22 +21,7 @@ export class ImageGallery extends Component {
     showModal: false,
   };
 
-  componentDidMount() {
-    const storageData = localStorage.getItem('data');
-    const obj = JSON.parse(storageData);
-
-    if (obj) {
-      this.setState({
-        data: obj,
-        buttonStatus: true,
-      });
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const URL = 'https://pixabay.com/api/?';
-    const KEY = '33797710-c43b349e33488e785e99b8ec8';
-
     if (prevProps.query !== this.props.query) {
       this.setState(prevState => {
         return {
@@ -50,7 +42,6 @@ export class ImageGallery extends Component {
               buttonStatus: true,
             };
           });
-          localStorage.setItem('data', JSON.stringify(res.data.hits));
         })
         .finally(() =>
           this.setState({
@@ -78,7 +69,6 @@ export class ImageGallery extends Component {
               data: [...prevState.data, ...res.data.hits],
             };
           });
-          localStorage.setItem('data', JSON.stringify(this.state.data));
         })
         .finally(() =>
           this.setState({

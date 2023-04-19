@@ -5,8 +5,12 @@ import {
   SearchInput,
   SearchFormButton,
 } from './Searchbar.styled';
-
+import PropTypes from 'prop-types';
 export class Searchbar extends Component {
+  static propTypes = {
+    resetPageAndgetDataFromFetch: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+  };
   state = {
     query: '',
   };
@@ -20,14 +24,13 @@ export class Searchbar extends Component {
 
   handleFormSubmit = evt => {
     evt.preventDefault();
-    const { getDataFromFetch } = this.props;
+    const { resetPageAndgetDataFromFetch } = this.props;
     const { query } = this.state;
     if (query.trim() === '') {
       return;
     }
-    getDataFromFetch(query);
+    resetPageAndgetDataFromFetch(query);
     this.resetState();
-    this.props.resetPageNumber();
   };
 
   resetState = () => {

@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 
 export const LoadMoreButton = styled.button`
-  display: ${props => {
-    const { none, block } = props.theme.display;
-    return props.showed ? block : none;
-  }};
   width: 120px;
   height: 32px;
   margin: 0 auto;

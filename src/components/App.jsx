@@ -9,9 +9,10 @@ export class App extends Component {
     page: 1,
   };
 
-  getDataFromFetch = query => {
+  resetPageAndgetDataFromFetch = query => {
     this.setState({
       query,
+      page: 1,
     });
   };
 
@@ -22,19 +23,13 @@ export class App extends Component {
       };
     });
   };
-  resetPageNumber = () => {
-    this.setState({
-      page: 1,
-    });
-  };
   render() {
     const { page, query } = this.state;
     return (
       <AppWrapper>
         <Searchbar
-          getDataFromFetch={this.getDataFromFetch}
+          resetPageAndgetDataFromFetch={this.resetPageAndgetDataFromFetch}
           page={page}
-          resetPageNumber={this.resetPageNumber}
         />
         <ImageGallery
           query={query}
