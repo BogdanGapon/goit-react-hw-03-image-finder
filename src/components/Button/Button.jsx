@@ -14,7 +14,7 @@ export class Button extends Component {
     return (
       showed && (
         <LoadMoreButton type="button" onClick={this.handleIncreaseAmountOfPage}>
-          Load moref
+          Load more
         </LoadMoreButton>
       )
     );
