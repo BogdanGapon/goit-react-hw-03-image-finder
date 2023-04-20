@@ -6,9 +6,10 @@ import {
   SearchFormButton,
 } from './Searchbar.styled';
 import PropTypes from 'prop-types';
+
 export class Searchbar extends Component {
   static propTypes = {
-    resetPageAndgetDataFromFetch: PropTypes.func.isRequired,
+    getQueryandResetPage: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
   };
   state = {
@@ -24,12 +25,12 @@ export class Searchbar extends Component {
 
   handleFormSubmit = evt => {
     evt.preventDefault();
-    const { resetPageAndgetDataFromFetch } = this.props;
+    const { getQueryandResetPage } = this.props;
     const { query } = this.state;
     if (query.trim() === '') {
       return;
     }
-    resetPageAndgetDataFromFetch(query);
+    getQueryandResetPage(query);
     this.resetState();
   };
 

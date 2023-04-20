@@ -3,7 +3,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 export class ImageGalleryItem extends Component {
   static propTypes = {
-    data: PropTypes.array.isRequired,
+    data: PropTypes.array,
     getLargePhoto: PropTypes.func.isRequired,
   };
   foundPhoto = largeImageURL => {
