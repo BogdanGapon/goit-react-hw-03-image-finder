@@ -15,33 +15,11 @@ export class App extends Component {
     LoaderVisible: false,
     buttonStatus: false,
   };
-  componentDidUpdate(prevState) {
-    if (prevState.query !== this.state.query) {
-      this.setState({
-        LoaderVisible: true,
-      });
-      axios
-        .get(
-          `${URL}key=${KEY}&q=${this.state.query}&page=${this.state.page}&image_type=photo&orientation=horizontal&per_page=12`
-        )
-        .then(res => {
-          if (res.data.hits.length === 0) {
-            return;
-          }
-          this.setState({
-            data: [...res.data.hits],
-            buttonStatus: true,
-          });
-        })
-        .finally(() =>
-          this.setState({
-            LoaderVisible: false,
-          })
-        );
-    }
+
+  componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.page !== this.state.page &&
-      prevState.query === this.state.query
+      prevState.page !== this.state.page ||
+      prevState.query !== this.state.query
     ) {
       this.setState({
         LoaderVisible: true,
@@ -63,15 +41,17 @@ export class App extends Component {
         .finally(() =>
           this.setState({
             LoaderVisible: false,
+            buttonStatus: true,
           })
         );
     }
   }
 
-  getQueryandResetPage = query => {
+  getQueryandResetPageAndData = query => {
     this.setState({
       query,
       page: 1,
+      data: [],
     });
   };
 
@@ -79,7 +59,6 @@ export class App extends Component {
     this.setState(prevState => {
       return {
         page: prevState.page + 1,
-        data: [...prevState.data],
       };
     });
   };
@@ -88,7 +67,7 @@ export class App extends Component {
     return (
       <AppWrapper>
         <Searchbar
-          getQueryandResetPage={this.getQueryandResetPage}
+          getQueryandResetPageAndData={this.getQueryandResetPageAndData}
           page={page}
         />
         <ImageGallery data={data} />

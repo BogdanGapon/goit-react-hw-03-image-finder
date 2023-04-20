@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
   static propTypes = {
-    getQueryandResetPage: PropTypes.func.isRequired,
+    getQueryandResetPageAndData: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
   };
   state = {
@@ -25,12 +25,12 @@ export class Searchbar extends Component {
 
   handleFormSubmit = evt => {
     evt.preventDefault();
-    const { getQueryandResetPage } = this.props;
+    const { getQueryandResetPageAndData } = this.props;
     const { query } = this.state;
     if (query.trim() === '') {
       return;
     }
-    getQueryandResetPage(query);
+    getQueryandResetPageAndData(query);
     this.resetState();
   };
 
